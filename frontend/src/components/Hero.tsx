@@ -1,10 +1,10 @@
-import { ArrowRight } from "lucide-react";
-import { Button } from "@/components/ui/button";
-import { Link } from "react-router-dom";
+import { ArrowRight } from 'lucide-react';
+import { Button } from '@/components/ui/button';
+import { Link } from 'react-router-dom';
 
 const Hero = () => {
   return (
-    <div className="relative h-dvh overflow-hidden pt-16 md:pt-20">
+    <div className="relative h-dvh overflow-hidden pt-16 md:pt-20 grid place-content-center">
       <div className="container mx-auto px-4 pt-16 pb-24 md:pb-40 relative z-10">
         <div className="max-w-4xl mx-auto text-center">
           <div className="inline-block animate-fade-in">
@@ -15,14 +15,14 @@ const Hero = () => {
 
           <h1
             className="mt-6 text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight animate-fade-in"
-            style={{ animationDelay: "100ms" }}
+            style={{ animationDelay: '100ms' }}
           >
             Your Personalized Roadmap to Startup Success
           </h1>
 
           <p
             className="mt-6 text-lg md:text-xl text-muted-foreground max-w-2xl mx-auto animate-fade-in"
-            style={{ animationDelay: "200ms" }}
+            style={{ animationDelay: '200ms' }}
           >
             Let AI guide your entrepreneurial journey with tailored roadmaps,
             competitive insights, and real-time mentorship to turn your vision
@@ -31,7 +31,7 @@ const Hero = () => {
 
           <div
             className="mt-10 flex flex-col sm:flex-row gap-4 justify-center animate-fade-in"
-            style={{ animationDelay: "300ms" }}
+            style={{ animationDelay: '300ms' }}
           >
             <Button asChild size="lg" className="rounded-full px-8">
               <Link to="/dashboard">
