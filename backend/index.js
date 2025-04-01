@@ -10,6 +10,7 @@ import {
   processQuestion,
   getFailurePrediction,
 } from "./lib/utils.js";
+import axios from "axios";
 
 const app = express();
 app.use(express.json());
@@ -19,6 +20,9 @@ app.use(
   }),
 );
 
+app.get("/", (req, res) => {
+  res.send("SparkPath Server Started");
+});
 // Endpoint to generate a startup roadmap
 app.post("/api/generate-roadmap", async (req, res) => {
   try {
@@ -253,4 +257,7 @@ app.post("/api/mentor/reset", (req, res) => {
 });
 
 const PORT = 4000;
-app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+app.listen(PORT, () => {
+  axios.get(`${process.env.PYTHON_SERVER_URL}/api`);
+  console.log(`Server running on port ${PORT}`);
+});

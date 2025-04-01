@@ -199,13 +199,12 @@ async function generateRoadmapTaskGuidance(taskTitle, formData) {
 
 //failure prediction util functions
 
-
 async function getFailurePrediction(
   industry,
-      budget,
-      teamSize,
-      marketSize,
-      country
+  budget,
+  teamSize,
+  marketSize,
+  country,
 ) {
   try {
     // 🔹 Step 1: Prepare Data for Flask API
@@ -220,8 +219,8 @@ async function getFailurePrediction(
 
     // 🔹 Step 2: Get Prediction from Flask API
     const flaskResponse = await axios.post(
-      process.env.PYTHON_SERVER_URL,
-      requestData
+      `${process.env.PYTHON_SERVER_URL}/api/predict`,
+      requestData,
     );
     // console.log("Flask Response:", flaskResponse.data);
 
@@ -302,22 +301,17 @@ async function getFailurePrediction(
 
 async function generateSWOTAnalysis(startupData) {
   try {
-   
     // 1. Add competitor insights
     const competitors = await identifyCompetitors(startupData);
 
     return {
-     
       competitors: competitors,
-   
     };
   } catch (error) {
     console.error("Error generating SWOT analysis:", error);
     throw error;
   }
 }
-
-
 
 /**
  * Identify relevant competitors based on startup profile
@@ -415,8 +409,6 @@ async function verifyCompetitorData(competitors) {
   });
 }
 
-
-
 //Legal compliance checklist utils functions
 async function fetchLegalChecklistItems(
   country,
@@ -427,7 +419,7 @@ async function fetchLegalChecklistItems(
   targetMarket,
   problemStatement,
   targetCustomer,
-  uniqueValueProposition
+  uniqueValueProposition,
 ) {
   try {
     const prompt = `
@@ -469,7 +461,6 @@ async function fetchLegalChecklistItems(
   }
 }
 
-
 async function fetchLegalComplianceData(
   checklistItemId,
   country,
@@ -480,7 +471,7 @@ async function fetchLegalComplianceData(
   targetMarket,
   problemStatement,
   targetCustomer,
-  uniqueValueProposition
+  uniqueValueProposition,
 ) {
   try {
     const prompt = `
@@ -524,8 +515,7 @@ async function fetchLegalComplianceData(
     - **Ensure accuracy** and refer to **official laws/regulations** where applicable.  
     - **Avoid unnecessary details** that do not fit the JSON format.  
     - **No filler content**—keep it relevant, practical, and **actionable**.  
-  `;  
-  
+  `;
 
     const result = await model.generateContent(prompt);
     const response = await result.response;
@@ -587,8 +577,7 @@ function getSystemInstructions(formData) {
 
 //Create a prompt that includes system instructions and conversation history
 
-function createPrompt(userMessage, history = [],formData) {
- 
+function createPrompt(userMessage, history = [], formData) {
   const systemInstructions = getSystemInstructions(formData);
 
   let prompt = `${systemInstructions}\n\nConversation history:\n`;
@@ -607,7 +596,7 @@ function createPrompt(userMessage, history = [],formData) {
 
 // Process startup-related questions and provide mentorship
 
-async function processQuestion(sessionId, message,formData) {
+async function processQuestion(sessionId, message, formData) {
   try {
     // Initialize conversation history if it doesn't exist
     if (!conversations[sessionId]) {
@@ -621,7 +610,7 @@ async function processQuestion(sessionId, message,formData) {
     });
 
     // Create prompt with system instructions and history
-    const prompt = createPrompt(message, conversations[sessionId],formData);
+    const prompt = createPrompt(message, conversations[sessionId], formData);
 
     // Generate content with Gemini
     const result = await model.generateContent(prompt);
@@ -642,7 +631,7 @@ async function processQuestion(sessionId, message,formData) {
     const followUps = await generateFollowUpQuestions(
       sessionId,
       aiMessage,
-      message
+      message,
     );
 
     return {

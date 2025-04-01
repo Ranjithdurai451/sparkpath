@@ -1,0 +1,90 @@
+# 🚀 Node.js & Backend
+node_modules/
+backend/node_modules/
+backend/dist/
+backend/.env
+backend/.DS_Store
+backend/tmp/
+backend/logs/
+backend/debug.log
+backend/yarn.lock
+backend/package-lock.json
+backend/.npm/
+backend/.cache/
+backend/prisma/migrations/
+
+# 🖥️ React Frontend
+frontend/node_modules/
+frontend/.next/
+frontend/.vercel/
+frontend/.turbo/
+frontend/dist/
+frontend/build/
+frontend/yarn.lock
+frontend/package-lock.json
+frontend/.env
+frontend/.DS_Store
+frontend/.cache/
+frontend/.parcel-cache/
+frontend/.vite/
+
+# ⚡ IDE & OS-Specific
+.vscode/
+.idea/
+*.swp
+*.swo
+*.sublime-workspace
+*.sublime-project
+Thumbs.db
+.DS_Store
+
+# 🐳 Docker
+docker-compose.override.yml
+.dockerignore
+docker/data/
+docker/volumes/
+docker/logs/
+
+# 📦 Deployment & Logs
+pm2.log
+pm2.pid
+npm-debug.log
+yarn-error.log
+pnpm-debug.log
+bun.lockb
+
+# 🔑 Security & Secrets
+.env
+.env.local
+.env.development
+.env.production
+.env.test
+.env.*.local
+config/*.json
+keys/
+certs/
+*.pem
+*.key
+
+# 🚀 Kubernetes & Terraform
+*.tfstate
+*.tfstate.backup
+.kube/
+.k8s/
+
+# 🏗️ Prisma & Database
+prisma/.cache/
+prisma/migrations/
+prisma/dev.db
+prisma/schema.prisma
+database.sqlite
+dump.rdb
+__pycache__/
+
+# 📦 Build Artifacts
+dist/
+out/
+coverage/
+test-reports/
+*.tsbuildinfo
+

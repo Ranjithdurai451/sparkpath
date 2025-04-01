@@ -17,27 +17,39 @@ with open("encoders.pkl", "rb") as f:
 # Split data
 X = df.drop(columns=["success"])
 y = df["success"]
-X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
+X_train, X_test, y_train, y_test = train_test_split(
+    X, y, test_size=0.2, random_state=42
+)
 
 # Train RandomForest model
 # model = RandomForestClassifier(n_estimators=100, random_state=42,class_weight="balanced")
-model = RandomForestClassifier(n_estimators=50, max_depth=10, class_weight="balanced", random_state=42)
+model = RandomForestClassifier(
+    n_estimators=50, max_depth=10, class_weight="balanced", random_state=42
+)
 
 model.fit(X_train, y_train)
 
-@app.route("/predict", methods=["POST"])
+
+@app.route("/api", methods=["GET"])
+def api():
+    return "Welcome to prediction service api"
+
+
+@app.route("/api/predict", methods=["POST"])
 def predict():
     data = request.json
-    
+
     try:
         # Encode input data
-        input_data = pd.DataFrame({
-            col: [encoders[col].transform([data[col]])[0]]
-            for col in ["industry", "budget", "team_size", "market_size", "country"]
-        })
+        input_data = pd.DataFrame(
+            {
+                col: [encoders[col].transform([data[col]])[0]]
+                for col in ["industry", "budget", "team_size", "market_size", "country"]
+            }
+        )
     except ValueError as e:
         return jsonify({"error": f"Invalid category in input: {str(e)}"}), 400
-    
+
     # Predict probability
     print(model.predict_proba(X_test[:5]))  # Check success vs. failure probabilities
 
@@ -65,7 +77,7 @@ def predict():
             "Media & Entertainment": "Changing consumer trends and monetization challenges.",
             "Energy & CleanTech": "High infrastructure costs and long ROI periods.",
             "Manufacturing": "Large upfront investment and supply chain dependencies.",
-            "Other": "Unclear industry risks due to undefined category."
+            "Other": "Unclear industry risks due to undefined category.",
         },
         "budget": {
             "bootstrap": "Limited funds may slow growth and limit scalability.",
@@ -73,20 +85,20 @@ def predict():
             "angel": "Depends on investors' risk appetite, which may change.",
             "series_a": "Pressure to scale rapidly, which may lead to burnout.",
             "series_b": "Investor expectations for high revenue growth.",
-            "series_c": "High valuation pressure; failure to grow fast can be risky."
+            "series_c": "High valuation pressure; failure to grow fast can be risky.",
         },
         "team_size": {
             "solo": "Single founder startups struggle with workload and decision-making.",
             "small": "Limited manpower can slow execution speed.",
             "medium": "Risk of inefficiency due to growing team coordination challenges.",
             "large": "High operational costs and possible leadership conflicts.",
-            "enterprise": "Bureaucracy may slow innovation and agility."
+            "enterprise": "Bureaucracy may slow innovation and agility.",
         },
         "market_size": {
             "niche": "Small customer base; harder to scale.",
             "medium": "Competition from both small and large players.",
             "large": "Crowded market; requires strong differentiation.",
-            "massive": "High potential but extremely competitive."
+            "massive": "High potential but extremely competitive.",
         },
         "country": {
             "in": "Regulatory complexity and evolving startup ecosystem.",
@@ -98,21 +110,23 @@ def predict():
             "fr": "Bureaucratic hurdles for business operations.",
             "jp": "Cultural challenges in startup adoption.",
             "sg": "Favorable business climate but small market size.",
-            "br": "Economic instability and complex tax system."
-        }
+            "br": "Economic instability and complex tax system.",
+        },
     }
 
     risk_explanations = [
-        risk_messages[factor].get(data[factor], "No specific risk identified.") 
+        risk_messages[factor].get(data[factor], "No specific risk identified.")
         for factor in top_factors
     ]
 
-    return jsonify({
-        "success_rate": f"{success_rate}%",
-        "failure_rate": f"{failure_rate}%",
-        "risk_factors": risk_explanations
-    })
+    return jsonify(
+        {
+            "success_rate": f"{success_rate}%",
+            "failure_rate": f"{failure_rate}%",
+            "risk_factors": risk_explanations,
+        }
+    )
+
 
 if __name__ == "__main__":
     app.run(debug=True)
-
