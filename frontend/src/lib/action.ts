@@ -1,6 +1,6 @@
 import { FormData, RoadmapItem } from "./types";
 
-const API_BASE_URL = `${import.meta.env.VITE_BACKEND_BASE_URL}`; // Replace with your actual API base URL
+const API_BASE_URL = `${import.meta.env.VITE_BACKEND_BASE_URL}/api`; // Replace with your actual API base URL
 // const API_BASE_URL = "http://localhost:4000/api"; // local url for frontend
 
 export async function generateRoadmap(formData: FormData) {
