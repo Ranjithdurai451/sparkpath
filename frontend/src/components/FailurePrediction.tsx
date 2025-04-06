@@ -68,11 +68,8 @@ const FailurePrediction = () => {
       const formData = JSON.parse(storedFormData);
       generateFailurePrediction(formData)
         .then((response) => {
-          setData(response.data);
-          localStorage.setItem(
-            'failure-prediction',
-            JSON.stringify(response.data)
-          );
+          setData(response);
+          localStorage.setItem('failure-prediction', JSON.stringify(response));
         })
         .catch((error) => {
           console.error('Error fetching data:', error);
