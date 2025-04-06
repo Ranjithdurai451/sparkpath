@@ -14,7 +14,8 @@ import { askMentorBot } from "@/lib/action";
 import ReactMarkdown from "react-markdown";
 
 const AIMentor = () => {
-  const [questions, setQuestions] = useState([]);
+  const [questions, setQuestions] = useState([
+  ]);
   const [newQuestion, setNewQuestion] = useState("");
   const [showForm, setShowForm] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -76,10 +77,16 @@ const AIMentor = () => {
       // Remove the question if there was an error
       setQuestions(questions);
       console.error(error);
-    } finally {
+    } 
+    // finally {
+    //   setLoading(false);
+    // }
+  };
+  useEffect(() => {
+    if(questions){
       setLoading(false);
     }
-  };
+  },[])
 
   return (
     <Card className="glass-panel border-none shadow-lg animate-scale-in ">
@@ -94,8 +101,8 @@ const AIMentor = () => {
         </CardDescription>
       </CardHeader>
 
-      <CardContent className="p-6 max-h-[70dvh] overflow-y-auto">
-        <div className="space-y-6 mb-6">
+      <CardContent className="p-6">
+        <div className="space-y-6 mb-6 max-h-[400px] overflow-y-auto">
           {questions.length > 0 ? (
             questions.map((qa, index) => (
               <div key={index} className="space-y-3">

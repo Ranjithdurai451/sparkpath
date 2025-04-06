@@ -362,7 +362,7 @@ async function identifyCompetitors(startupData) {
         Verify that each competitor is active in ${startupData.country} or serves this market remotely.
 
         Ensure:
-         -Strictly give JSON response format
+         -Strictly give JSON response format no matter what.
       `;
 
     // Generate competitor analysis

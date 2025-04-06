@@ -42,9 +42,10 @@ useEffect(() => {
       }
     } catch (error) {
       console.error("Error fetching data:", error);
-    } finally {
-      isLoading(false); // ✅ Stop loading after fetching data
-    }
+    } 
+    // finally {
+    //   isLoading(false); // ✅ Stop loading after fetching data
+    // }
   };
 
   fetchData();
@@ -58,6 +59,11 @@ useEffect(() => {
 
   return () => clearInterval(interval);
 }, []);
+useEffect(() => {
+  if(itemData){
+    isLoading(false);
+  }
+},[itemData]);
 
 if (loading) return <PageLoader loading={loading} progress={progress} />;
   return (

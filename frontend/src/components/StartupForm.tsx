@@ -32,6 +32,9 @@ const StartupForm = () => {
     try {
      localStorage.setItem("formData", JSON.stringify(formData));
     const response= await generateRoadmap(formData);
+    if (response) {
+      navigate("/roadmap-result"); // ✅ Navigate with data
+    }
     const swotanalysis=await generateSWOTAnalysis(formData);
     const fetchLegalChecklist=await generateLegalChecklist(formData);
     const failurePrediction=await generateFailurePrediction(formData);
@@ -39,13 +42,11 @@ const StartupForm = () => {
    
     
    
-    if (response) {
-      navigate("/roadmap-result"); // ✅ Navigate with data
-    }
       
     } catch (error) {
       console.error("Error:", error);
-    } finally {
+    } 
+    finally {
       setLoading(false);
     }
   };

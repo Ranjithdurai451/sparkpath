@@ -49,9 +49,9 @@ const LegalChecklistItemDetail = () => {
       } catch (error) {
         console.error("Error fetching data:", error);
       } 
-      finally{
-        setLoading(false);
-      }
+      // finally{
+      //   setLoading(false);
+      // }
     };
   
     fetchData();
@@ -68,6 +68,11 @@ useEffect(() => {
   return () => clearInterval(interval);
 }, []);
 
+useEffect(() => {
+  if (item) {
+    setLoading(false);
+  }
+}, [item]);
 
 
 if (loading) return <PageLoader loading={loading} progress={progress} />;

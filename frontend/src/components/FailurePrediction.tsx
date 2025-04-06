@@ -2,6 +2,7 @@
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { AlertTriangle, TrendingDown, AlertCircle, ArrowDownRight, ArrowUpRight } from 'lucide-react';
 import { useEffect, useState } from "react";
+import PageLoader from "./PageLoader";
 
 const RiskIndicator = ({ score }: { score: number }) => {
   let textColor = 'text-green-500';
@@ -41,7 +42,8 @@ const RiskIndicator = ({ score }: { score: number }) => {
 
 const FailurePrediction = () => {
   const [data, setData] = useState<any>(null);
-
+  const [progress, setProgress] = useState(0);
+  const [loading,isLoading]=useState(true);
   useEffect(() => {
     try {
       const storedData = localStorage.getItem("failure-prediction");
@@ -53,8 +55,22 @@ const FailurePrediction = () => {
       console.error("Error parsing localStorage data:", error);
     }
   }, []);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setProgress((prev) => (prev < 100 ? prev + 10 : 100));
+    }, 300);
+  
+    return () => clearInterval(interval);
+  }, []);
+  useEffect(() => {
+    if(data){
+      isLoading(false);
+    }
+  },[data]);
+
   if (!data) {
-    return <div>Loading...</div>;
+    return <PageLoader loading={loading} progress={progress} />;
   }
 
   const { prediction, growthStrategy } = data;
