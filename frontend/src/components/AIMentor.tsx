@@ -1,32 +1,31 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState } from 'react';
 import {
   Card,
   CardContent,
   CardDescription,
   CardHeader,
   CardTitle,
-} from "@/components/ui/card";
-import { Avatar, AvatarFallback } from "@/components/ui/avatar";
-import { Button } from "@/components/ui/button";
-import { Textarea } from "@/components/ui/textarea";
-import { Bot, User, SendIcon, Sparkles, Loader2 } from "lucide-react";
-import { askMentorBot } from "@/lib/action";
-import ReactMarkdown from "react-markdown";
+} from '@/components/ui/card';
+import { Avatar, AvatarFallback } from '@/components/ui/avatar';
+import { Button } from '@/components/ui/button';
+import { Textarea } from '@/components/ui/textarea';
+import { Bot, User, SendIcon, Sparkles, Loader2 } from 'lucide-react';
+import { askMentorBot } from '@/lib/action';
+import ReactMarkdown from 'react-markdown';
 
 const AIMentor = () => {
-  const [questions, setQuestions] = useState([
-  ]);
-  const [newQuestion, setNewQuestion] = useState("");
+  const [questions, setQuestions] = useState([]);
+  const [newQuestion, setNewQuestion] = useState('');
   const [showForm, setShowForm] = useState(false);
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState("");
+  const [error, setError] = useState('');
   const [typingIndex, setTypingIndex] = useState(0);
-  const sessionId = "startup-mentor-123";
+  const sessionId = 'startup-mentor-123';
 
   useEffect(() => {
     let interval;
     if (loading) {
-      const dots = [".", "..", "..."];
+      const dots = ['.', '..', '...'];
       interval = setInterval(() => {
         setTypingIndex((prevIndex) => (prevIndex + 1) % dots.length);
       }, 500);
@@ -36,7 +35,7 @@ const AIMentor = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const formdata = JSON.parse(localStorage.getItem("formData") || "{}");
+    const formdata = JSON.parse(localStorage.getItem('formData') || '{}');
     // console.log("formdata",formdata);
 
     if (!formdata) {
@@ -45,7 +44,7 @@ const AIMentor = () => {
     if (!newQuestion.trim()) return;
 
     setLoading(true);
-    setError("");
+    setError('');
 
     // Add the user's question immediately
     const updatedQuestions = [
@@ -57,7 +56,7 @@ const AIMentor = () => {
     ];
     setQuestions(updatedQuestions);
     const currentQuestion = newQuestion;
-    setNewQuestion("");
+    setNewQuestion('');
 
     try {
       const response = await askMentorBot(sessionId, currentQuestion, formdata);
@@ -68,25 +67,25 @@ const AIMentor = () => {
         finalQuestions[finalQuestions.length - 1].answer = response.message;
         setQuestions(finalQuestions);
       } else {
-        setError("An error occurred. Please try again.");
+        setError('An error occurred. Please try again.');
         // Remove the question if there was an error
         setQuestions(questions);
       }
     } catch (error) {
-      setError("Failed to fetch response. Check your connection.");
+      setError('Failed to fetch response. Check your connection.');
       // Remove the question if there was an error
       setQuestions(questions);
       console.error(error);
-    } 
+    }
     // finally {
     //   setLoading(false);
     // }
   };
   useEffect(() => {
-    if(questions){
+    if (questions) {
       setLoading(false);
     }
-  },[])
+  }, [questions]);
 
   return (
     <Card className="glass-panel border-none shadow-lg animate-scale-in ">
@@ -131,15 +130,15 @@ const AIMentor = () => {
                         <div className="flex space-x-1">
                           <div
                             className={`h-2 w-2 rounded-full bg-primary/70 animate-bounce`}
-                            style={{ animationDelay: "0ms" }}
+                            style={{ animationDelay: '0ms' }}
                           ></div>
                           <div
                             className={`h-2 w-2 rounded-full bg-primary/70 animate-bounce`}
-                            style={{ animationDelay: "200ms" }}
+                            style={{ animationDelay: '200ms' }}
                           ></div>
                           <div
                             className={`h-2 w-2 rounded-full bg-primary/70 animate-bounce`}
-                            style={{ animationDelay: "400ms" }}
+                            style={{ animationDelay: '400ms' }}
                           ></div>
                         </div>
                         <span className="text-xs text-primary/70">
@@ -191,7 +190,7 @@ const AIMentor = () => {
                 ) : (
                   <SendIcon className="h-4 w-4 mr-2" />
                 )}
-                {loading ? "Sending..." : "Send Question"}
+                {loading ? 'Sending...' : 'Send Question'}
               </Button>
             </div>
           </form>
@@ -210,4 +209,3 @@ const AIMentor = () => {
 };
 
 export default AIMentor;
-

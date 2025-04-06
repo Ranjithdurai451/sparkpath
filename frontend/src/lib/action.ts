@@ -63,7 +63,7 @@ export async function generateFailurePrediction(itemData: FormData) {
 
     const data = await response.json(); // ✅ Parse JSON response
     console.log("failure prediction:", data); // ✅ Now this will log correctly
-    window.localStorage.setItem("failure-prediction", JSON.stringify(data));
+    window.localStorage.setItem("failure-prediction", JSON.stringify(data.data));
     return data; // ✅ Return data for further use
   } catch (error) {
     console.error("Error fetching failure:", error);
@@ -88,7 +88,7 @@ export async function generateSWOTAnalysis(formData: FormData) {
     }
 
     const data = await response.json(); // ✅ Parse JSON response
-    localStorage.setItem("swot", JSON.stringify(data));
+    localStorage.setItem("swot", JSON.stringify(data.data));
     return data; // ✅ Return data for further use
   } catch (error) {
     console.error("Error fetching swot analysis:", error);
@@ -110,7 +110,7 @@ export async function generateLegalChecklist(formData: FormData) {
     }
 
     const data = await response.json(); // ✅ Parse JSON response
-    localStorage.setItem("legal-checklist", JSON.stringify(data));
+    localStorage.setItem("legal-checklist", JSON.stringify(data.data));
     return data; // ✅ Return data for further use
   } catch (error) {
     console.error("Error fetching legal checklist:", error);
