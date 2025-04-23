@@ -5,8 +5,30 @@ dotenv.config();
 
 // Initialize the Gemini API client
 const API_KEY = process.env.GEMINI_API_KEY;
+
 const genAI = new GoogleGenerativeAI(API_KEY);
 const model = genAI.getGenerativeModel({ model: "gemini-2.0-flash" });
+
+export function withRetry(fn, options = {}) {
+  const { retries = 3, delay = 1000 } = options;
+
+  return async function retryWrapper(...args) {
+    for (let attempt = 1; attempt <= retries; attempt++) {
+      try {
+        const result = await fn(...args);
+        return result;
+      } catch (error) {
+        console.warn(`Attempt ${attempt} failed:`, error.message);
+        if (attempt < retries) {
+          await new Promise((resolve) => setTimeout(resolve, delay));
+        } else {
+          console.error("All retry attempts failed.");
+          throw error;
+        }
+      }
+    }
+  };
+}
 
 //roadmap utils functions
 
@@ -90,36 +112,7 @@ async function generateStartupRoadmap(details) {
   } catch (error) {
     console.error("Error generating roadmap:", error);
     return {
-      phases: [
-        {
-          name: "Validation Phase",
-          duration: "3 months",
-          percentComplete: 0,
-          tasks: [
-            {
-              title: "Conduct market research & customer interviews",
-              description: "Validate market need and potential customer base",
-              status: "Not Started",
-            },
-            {
-              title: "Build MVP (Minimum Viable Product)",
-              description: "Create initial version of the product",
-              status: "Not Started",
-            },
-            {
-              title: "Launch beta testing",
-              description: "Test with 10-20 early users",
-              status: "Not Started",
-            },
-          ],
-        },
-      ],
-      startupProfile: {
-        industry,
-        budgetRange,
-        teamSize,
-        region,
-      },
+      error,
     };
   }
 }
@@ -204,7 +197,7 @@ async function getFailurePrediction(
   budget,
   teamSize,
   marketSize,
-  country,
+  country
 ) {
   try {
     // 🔹 Step 1: Prepare Data for Flask API
@@ -220,7 +213,7 @@ async function getFailurePrediction(
     // 🔹 Step 2: Get Prediction from Flask API
     const flaskResponse = await axios.post(
       `${process.env.PYTHON_SERVER_URL}/api/predict`,
-      requestData,
+      requestData
     );
     // console.log("Flask Response:", flaskResponse.data);
 
@@ -419,7 +412,7 @@ async function fetchLegalChecklistItems(
   targetMarket,
   problemStatement,
   targetCustomer,
-  uniqueValueProposition,
+  uniqueValueProposition
 ) {
   try {
     const prompt = `
@@ -471,7 +464,7 @@ async function fetchLegalComplianceData(
   targetMarket,
   problemStatement,
   targetCustomer,
-  uniqueValueProposition,
+  uniqueValueProposition
 ) {
   try {
     const prompt = `
@@ -631,7 +624,7 @@ async function processQuestion(sessionId, message, formData) {
     const followUps = await generateFollowUpQuestions(
       sessionId,
       aiMessage,
-      message,
+      message
     );
 
     return {
