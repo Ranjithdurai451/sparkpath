@@ -1,26 +1,29 @@
-import { Suspense, useEffect } from 'react';
-import { Toaster } from '@/components/ui/toaster';
-import { Toaster as Sonner } from '@/components/ui/sonner';
-import { TooltipProvider } from '@/components/ui/tooltip';
-import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
-import { ThemeProvider } from './components/ThemeProvider';
-import InitialLoader from './components/InitialLoader';
-import Index from './pages/Index';
-import Dashboard from './pages/Dashboard';
-import RoadmapResult from './pages/RoadmapResult';
-import ChecklistItemDetail from './pages/ChecklistItemDetail';
-import LegalChecklistItemDetail from './pages/LegalChecklistItemDetail';
-import NotFound from './pages/NotFound';
+import { Suspense, useEffect } from "react";
+import { Toaster } from "@/components/ui/toaster";
+import { Toaster as Sonner } from "@/components/ui/sonner";
+import { TooltipProvider } from "@/components/ui/tooltip";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { ThemeProvider } from "./components/ThemeProvider";
+import InitialLoader from "./components/InitialLoader";
+import Index from "./pages/Index";
+import Dashboard from "./pages/Dashboard";
+import RoadmapResult from "./pages/RoadmapResult";
+import ChecklistItemDetail from "./pages/ChecklistItemDetail";
+import LegalChecklistItemDetail from "./pages/LegalChecklistItemDetail";
+import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
 
 const App = () => {
   useEffect(() => {
-    fetch(import.meta.env.BACKEND_BASE_URL + '/api');
+    async function startServer() {
+      await fetch(import.meta.env.BACKEND_BASE_URL + "/api");
+      console.log("Server Started");
+    }
   }, []);
-    return (
-      <QueryClientProvider client={queryClient}>
+  return (
+    <QueryClientProvider client={queryClient}>
       <ThemeProvider defaultTheme="system">
         <TooltipProvider>
           <Suspense fallback={<InitialLoader />}>

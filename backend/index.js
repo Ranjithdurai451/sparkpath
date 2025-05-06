@@ -1,5 +1,5 @@
-import express from 'express';
-import cors from 'cors';
+import express from "express";
+import cors from "cors";
 import {
   conversations,
   fetchLegalComplianceData,
@@ -9,21 +9,21 @@ import {
   generateSWOTAnalysis,
   processQuestion,
   getFailurePrediction,
-} from './lib/utils.js';
-import axios from 'axios';
+} from "./lib/utils.js";
+import axios from "axios";
 const app = express();
 app.use(express.json());
 app.use(
   cors({
     origin: process.env.FRONTEND_BASE_URL,
-  })
+  }),
 );
 
-app.get('/api', (req, res) => {
-  res.send('SparkPath Server Started');
+app.get("/api", (req, res) => {
+  res.send("SparkPath Server Started");
 });
 // Endpoint to generate a startup roadmap
-app.post('/api/generate-roadmap', async (req, res) => {
+app.post("/api/generate-roadmap", async (req, res) => {
   try {
     const roadmapData = await generateStartupRoadmap(req.body);
 
@@ -32,39 +32,39 @@ app.post('/api/generate-roadmap', async (req, res) => {
       roadmap: roadmapData,
     });
   } catch (error) {
-    console.error('Roadmap Generation Error:', error);
+    console.error("Roadmap Generation Error:", error);
     return res.status(500).json({
       success: false,
-      message: 'Failed to generate roadmap',
+      message: "Failed to generate roadmap",
       error: error.message,
     });
   }
 });
 
 // Endpoint to generate roadmap task details
-app.post('/api/task-guidance', async (req, res) => {
+app.post("/api/task-guidance", async (req, res) => {
   try {
     const { taskTitle, formData } = req.body;
     if (!taskTitle || !formData) {
       return res.status(400).json({
         success: false,
-        message: 'Task title and form data are required.',
+        message: "Task title and form data are required.",
       });
     }
 
     const taskGuidance = await generateRoadmapTaskGuidance(taskTitle, formData);
     return res.json({ success: true, data: taskGuidance });
   } catch (error) {
-    console.error('Task Guidance API Error:', error);
+    console.error("Task Guidance API Error:", error);
     return res.status(500).json({
       success: false,
-      message: 'Failed to generate task guidance',
+      message: "Failed to generate task guidance",
       error: error.message,
     });
   }
 });
 
-app.post('/api/failure-prediction', async (req, res) => {
+app.post("/api/failure-prediction", async (req, res) => {
   try {
     const { industry, budget, teamSize, marketSize, country } = req.body;
 
@@ -74,15 +74,15 @@ app.post('/api/failure-prediction', async (req, res) => {
       budget,
       teamSize,
       marketSize,
-      country
+      country,
     );
 
     return res.json(result);
   } catch (error) {
-    console.error('Error:', error);
+    console.error("Error:", error);
     return res.status(500).json({
       success: false,
-      message: 'Server error',
+      message: "Server error",
       error: error.message,
     });
   }
@@ -90,13 +90,13 @@ app.post('/api/failure-prediction', async (req, res) => {
 
 //Enpoint to competitor analysis
 
-app.post('/api/swot-analysis', async (req, res) => {
+app.post("/api/swot-analysis", async (req, res) => {
   try {
     const { startupData } = req.body;
 
     if (!startupData) {
       return res.status(400).json({
-        error: 'Startup profile data is required',
+        error: "Startup profile data is required",
       });
     }
 
@@ -104,7 +104,7 @@ app.post('/api/swot-analysis', async (req, res) => {
     return res.json(analysis);
   } catch (error) {
     return res.status(500).json({
-      error: 'An error occurred while generating the analysis',
+      error: "An error occurred while generating the analysis",
       details: error.message,
     });
   }
@@ -112,7 +112,7 @@ app.post('/api/swot-analysis', async (req, res) => {
 
 //Endpoints for legal compliance checklist and checklist details
 
-app.post('/api/checklist', async (req, res) => {
+app.post("/api/checklist", async (req, res) => {
   const {
     industry,
     budget,
@@ -126,7 +126,7 @@ app.post('/api/checklist', async (req, res) => {
   } = req.body;
 
   if (!country || !region) {
-    return res.status(400).json({ error: 'Country and region are required' });
+    return res.status(400).json({ error: "Country and region are required" });
   }
 
   try {
@@ -139,7 +139,7 @@ app.post('/api/checklist', async (req, res) => {
       targetMarket,
       problemStatement,
       targetCustomer,
-      uniqueValueProposition
+      uniqueValueProposition,
     );
     return res.json(items);
   } catch (error) {
@@ -147,7 +147,7 @@ app.post('/api/checklist', async (req, res) => {
   }
 });
 
-app.post('/api/checklist/:itemId/details', async (req, res) => {
+app.post("/api/checklist/:itemId/details", async (req, res) => {
   const { itemId } = req.params;
   const {
     country,
@@ -162,7 +162,7 @@ app.post('/api/checklist/:itemId/details', async (req, res) => {
   } = req.body;
 
   if (!country || !region) {
-    return res.status(400).json({ error: 'Country and region are required' });
+    return res.status(400).json({ error: "Country and region are required" });
   }
 
   try {
@@ -176,7 +176,7 @@ app.post('/api/checklist/:itemId/details', async (req, res) => {
       targetMarket,
       problemStatement,
       targetCustomer,
-      uniqueValueProposition
+      uniqueValueProposition,
     );
     return res.json(complianceData);
   } catch (error) {
@@ -185,13 +185,13 @@ app.post('/api/checklist/:itemId/details', async (req, res) => {
 });
 
 // Endpoint to process a question and get mentor advice
-app.post('/api/mentor/ask', async (req, res) => {
+app.post("/api/mentor/ask", async (req, res) => {
   try {
     const { sessionId, message, formData } = req.body;
 
     if (!sessionId || !message) {
       return res.status(400).json({
-        error: 'Session ID and message are required',
+        error: "Session ID and message are required",
       });
     }
 
@@ -199,45 +199,45 @@ app.post('/api/mentor/ask', async (req, res) => {
     return res.json(response);
   } catch (error) {
     return res.status(500).json({
-      error: 'An error occurred while processing your question',
+      error: "An error occurred while processing your question",
       details: error.message,
     });
   }
 });
 
 // Endpoint to get suggested starter questions
-app.get('/api/mentor/suggested-questions', async (req, res) => {
+app.get("/api/mentor/suggested-questions", async (req, res) => {
   try {
     // These could be dynamically generated, but using static ones for reliability
     const suggestedQuestions = [
-      'How do I find my first customers?',
-      'When should I hire my first employee?',
-      'How much equity should I give to co-founders?',
-      'What metrics should I focus on in my first year?',
-      'How do I create an effective pitch deck?',
+      "How do I find my first customers?",
+      "When should I hire my first employee?",
+      "How much equity should I give to co-founders?",
+      "What metrics should I focus on in my first year?",
+      "How do I create an effective pitch deck?",
       "What's the best way to approach investors?",
-      'How do I know if my startup idea is viable?',
-      'What legal structure is best for my startup?',
-      'How should I price my product or service?',
-      'What are the most common mistakes first-time founders make?',
+      "How do I know if my startup idea is viable?",
+      "What legal structure is best for my startup?",
+      "How should I price my product or service?",
+      "What are the most common mistakes first-time founders make?",
     ];
 
     return res.json({ questions: suggestedQuestions });
   } catch (error) {
     return res.status(500).json({
-      error: 'An error occurred',
+      error: "An error occurred",
       details: error.message,
     });
   }
 });
 
 // Endpoint to reset a conversation
-app.post('/api/mentor/reset', (req, res) => {
+app.post("/api/mentor/reset", (req, res) => {
   try {
     const { sessionId } = req.body;
 
     if (!sessionId) {
-      return res.status(400).json({ error: 'Session ID is required' });
+      return res.status(400).json({ error: "Session ID is required" });
     }
 
     // Clear conversation history
@@ -245,11 +245,11 @@ app.post('/api/mentor/reset', (req, res) => {
 
     return res.json({
       success: true,
-      message: 'Conversation reset successfully',
+      message: "Conversation reset successfully",
     });
   } catch (error) {
     return res.status(500).json({
-      error: 'An error occurred',
+      error: "An error occurred",
       details: error.message,
     });
   }
@@ -258,9 +258,10 @@ app.post('/api/mentor/reset', (req, res) => {
 const PORT = 4000;
 app.listen(PORT, async () => {
   try {
-    const res = axios.get(`${process.env.PYTHON_SERVER_URL}/api`);
+    const res = await axios.get(`${process.env.PYTHON_SERVER_URL}/api`);
+    console.log("Python service Started");
   } catch (error) {
-    console.log('Python server is not running');
+    console.log("Python server is not running");
   }
   console.log(`Server running on port ${PORT}`);
 });
