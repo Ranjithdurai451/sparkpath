@@ -72,7 +72,8 @@ export async function generateFailurePrediction(itemData: FormData) {
 
     const data = await response.json(); // ✅ Parse JSON response
     console.log("failure prediction:", data); // ✅ Now this will log correctly
-    window.localStorage.setItem("failure-prediction", JSON.stringify(data));
+    if(data.success)
+        window.localStorage.setItem("failure-prediction", JSON.stringify(data));
     return data; // ✅ Return data for further use
   } catch (error) {
     console.error("Error fetching failure:", error);
