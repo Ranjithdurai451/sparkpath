@@ -1,8 +1,6 @@
 # Spark Path
 
 <div align="center">
-  <img src="frontend/public/placeholder.svg" alt="Spark Path Logo" width="120" style="border-radius: 10px;"/>
-
   [![Live Demo](https://img.shields.io/badge/Live%20Demo-Vercel-brightgreen?style=for-the-badge&logo=vercel)](https://spark-path.vercel.app)
   ![React](https://img.shields.io/badge/React-18+-blue?style=for-the-badge&logo=react)
   ![TypeScript](https://img.shields.io/badge/TypeScript-4+-3178c6?style=for-the-badge&logo=typescript)
@@ -64,8 +62,3 @@ python app.py
     ├── lib/              # Server utilities
     └── app.py           # Server entry
 ```
-
----
-<div align="center">
-  <p>Made with ❤️ for startups</p>
-</div>
