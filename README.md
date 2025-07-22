@@ -1,7 +1,6 @@
 # Spark Path
 
 <div align="center">
-  [![Live Demo](https://img.shields.io/badge/Live%20Demo-Vercel-brightgreen?style=for-the-badge&logo=vercel)](https://spark-path.vercel.app)
   ![React](https://img.shields.io/badge/React-18+-blue?style=for-the-badge&logo=react)
   ![TypeScript](https://img.shields.io/badge/TypeScript-4+-3178c6?style=for-the-badge&logo=typescript)
   ![Vite](https://img.shields.io/badge/Vite-Latest-646CFF?style=for-the-badge&logo=vite)
@@ -10,8 +9,6 @@
 
 ## About
 A comprehensive platform designed to help startups navigate their journey with AI-powered insights, competitor analysis, and personalized roadmaps. Features include failure prediction, legal checklists, and interactive AI mentoring.
-
-🔗 **[Live Demo](https://spark-path.vercel.app)**
 
 ## Features
 - AI-powered startup mentoring
