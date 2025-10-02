@@ -21,6 +21,7 @@ const App = () => {
       await fetch(import.meta.env.BACKEND_BASE_URL + "/api");
       console.log("Server Started");
     }
+    startServer();
   }, []);
   return (
     <QueryClientProvider client={queryClient}>
