@@ -18,7 +18,7 @@ const queryClient = new QueryClient();
 const App = () => {
   useEffect(() => {
     async function startServer() {
-      await fetch(import.meta.env.BACKEND_BASE_URL + "/api");
+      await fetch(import.meta.env.VITE_BACKEND_BASE_URL + "/api");
       console.log("Server Started");
     }
     startServer();
